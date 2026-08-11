@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StatsRouteImport } from './routes/stats'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuizModeRouteImport } from './routes/quiz.$mode'
@@ -17,6 +19,16 @@ import { Route as QuizModeRouteImport } from './routes/quiz.$mode'
 const StatsRoute = StatsRouteImport.update({
   id: '/stats',
   path: '/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookmarksRoute = BookmarksRouteImport.update({
@@ -38,12 +50,16 @@ const QuizModeRoute = QuizModeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
+  '/portfolio': typeof PortfolioRoute
+  '/roadmap': typeof RoadmapRoute
   '/stats': typeof StatsRoute
   '/quiz/$mode': typeof QuizModeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
+  '/portfolio': typeof PortfolioRoute
+  '/roadmap': typeof RoadmapRoute
   '/stats': typeof StatsRoute
   '/quiz/$mode': typeof QuizModeRoute
 }
@@ -51,20 +67,32 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
+  '/portfolio': typeof PortfolioRoute
+  '/roadmap': typeof RoadmapRoute
   '/stats': typeof StatsRoute
   '/quiz/$mode': typeof QuizModeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bookmarks' | '/stats' | '/quiz/$mode'
+  fullPaths:
+    '/' | '/bookmarks' | '/portfolio' | '/roadmap' | '/stats' | '/quiz/$mode'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bookmarks' | '/stats' | '/quiz/$mode'
-  id: '__root__' | '/' | '/bookmarks' | '/stats' | '/quiz/$mode'
+  to: '/' | '/bookmarks' | '/portfolio' | '/roadmap' | '/stats' | '/quiz/$mode'
+  id:
+    | '__root__'
+    | '/'
+    | '/bookmarks'
+    | '/portfolio'
+    | '/roadmap'
+    | '/stats'
+    | '/quiz/$mode'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookmarksRoute: typeof BookmarksRoute
+  PortfolioRoute: typeof PortfolioRoute
+  RoadmapRoute: typeof RoadmapRoute
   StatsRoute: typeof StatsRoute
   QuizModeRoute: typeof QuizModeRoute
 }
@@ -76,6 +104,20 @@ declare module '@tanstack/react-router' {
       path: '/stats'
       fullPath: '/stats'
       preLoaderRoute: typeof StatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bookmarks': {
@@ -105,6 +147,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookmarksRoute: BookmarksRoute,
+  PortfolioRoute: PortfolioRoute,
+  RoadmapRoute: RoadmapRoute,
   StatsRoute: StatsRoute,
   QuizModeRoute: QuizModeRoute,
 }
